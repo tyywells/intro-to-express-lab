@@ -41,6 +41,43 @@ app.get('/collectibles/:index', (req, res) => {
       }
     });
 
+    const shoes = [
+        { name: "Birkenstocks", price: 50, type: "sandal" },
+        { name: "Air Jordans", price: 500, type: "sneaker" },
+        { name: "Air Mahomeses", price: 501, type: "sneaker" },
+        { name: "Utility Boots", price: 20, type: "boot" },
+        { name: "Velcro Sandals", price: 15, type: "sandal" },
+        { name: "Jet Boots", price: 1000, type: "boot" },
+        { name: "Fifty-Inch Heels", price: 175, type: "heel" }
+    ];
+
+app.get('/shoes', (req, res) => {
+  const minPrice = req.query.minPrice
+  const maxPrice = req.query.maxPrice
+  const type = req.query.type
+  let allShoes = shoes
+
+  if (minPrice) {
+      allShoes = shoes.filter(function (shoe) {
+          return shoe.price > Number(minPrice)
+      })
+  }
+
+  if (maxPrice) {
+      allShoes = shoes.filter(function (shoe) {
+          return shoe.price < Number(maxPrice)
+      })
+  }
+
+  if (type) {
+      allShoes = shoes.filter(function (shoe) {
+          return shoe.type === type
+      })
+  }
+
+  res.json(allShoes)
+})
+
 
 app.listen(3000, () => {
     console.log('listening on port 3000')
